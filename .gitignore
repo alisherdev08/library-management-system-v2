@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Spring configs with secrets
+application-dev.yml
+application-prod.yml
+.env
+.env.local
+

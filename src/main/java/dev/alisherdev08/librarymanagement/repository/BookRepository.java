@@ -1,7 +1,9 @@
 package dev.alisherdev08.librarymanagement.repository;
 
+import dev.alisherdev08.librarymanagement.entity.Book;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BookRepository {
+public interface BookRepository extends JpaRepository<Book, Long> {
 }
