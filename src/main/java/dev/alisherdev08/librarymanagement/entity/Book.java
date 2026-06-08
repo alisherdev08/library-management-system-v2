@@ -1,10 +1,13 @@
 package dev.alisherdev08.librarymanagement.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-
 import java.time.Instant;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "books")
 public class Book {
@@ -29,67 +32,4 @@ public class Book {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Integer getPublishedYear() {
-        return publishedYear;
-    }
-
-    public void setPublishedYear(Integer publishedYear) {
-        this.publishedYear = publishedYear;
-    }
-
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Long getId() {
-        return id;
-    }
 }

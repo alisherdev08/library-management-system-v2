@@ -1,11 +1,13 @@
 package dev.alisherdev08.librarymanagement.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "students")
 public class Student {
@@ -29,67 +31,4 @@ public class Student {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getStudentNumber() {
-        return studentNumber;
-    }
-
-    public void setStudentNumber(String studentNumber) {
-        this.studentNumber = studentNumber;
-    }
-
-    public LocalDate getEnrollmentDate() {
-        return enrollmentDate;
-    }
-
-    public void setEnrollmentDate(LocalDate enrollmentDate) {
-        this.enrollmentDate = enrollmentDate;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getFisrtName() {
-        return fisrtName;
-    }
-
-    public void setFisrtName(String fisrtName) {
-        this.fisrtName = fisrtName;
-    }
-
-    public Long getId() {
-        return id;
-    }
 }
