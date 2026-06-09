@@ -17,7 +17,7 @@ public class BorrowRecordController {
     public BorrowRecord createRecord(@RequestBody BorrowRecord borrowRecord){
         return borrowRecordService.createBorrow(borrowRecord);
     }
-    @GetMapping("{/id}")
+    @GetMapping("/{id}")
     public BorrowRecord getRecord(@PathVariable Long id){
         return borrowRecordService.findBorrowRecordById(id);
     }
