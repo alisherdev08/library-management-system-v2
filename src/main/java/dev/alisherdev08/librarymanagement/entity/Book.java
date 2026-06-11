@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -32,4 +34,6 @@ public class Book {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BorrowRecord> borrowRecords = new HashSet<>();
 }

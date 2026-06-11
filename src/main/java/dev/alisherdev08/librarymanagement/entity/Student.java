@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -24,11 +26,13 @@ public class Student {
     private String email;
     @Column(name = "last_name", nullable = false, length = 100)
     private String lastName;
-    @Column(name = "fisrt_name", nullable = false, length = 100)
-    private String fisrtName;
+    @Column(name = "first_name", nullable = false, length = 100)
+    private String firstName;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BorrowRecord> borrowRecords = new HashSet<>();
 }
