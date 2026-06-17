@@ -30,8 +30,9 @@ A **production-ready REST API** for library management, evolved from the origina
 ## ✨ Features
 
 ### Core Functionality
+- ✍️ **Author Management** - Manage authors and their publications
 - 📖 **Book Management** - Add, update, delete, and retrieve books
-- 👥 **User Management** - Register and manage library members
+- 👥 **Student Management** - Register and manage library members
 - 🔄 **Borrowing System** - Lend books and track return dates
 - 📊 **Inventory Tracking** - Real-time book availability status
 - 📅 **Borrow Records** - Complete audit trail of all transactions
@@ -41,32 +42,41 @@ A **production-ready REST API** for library management, evolved from the origina
 - 📝 **Error Handling** - Comprehensive error responses with meaningful messages
 - 🔍 **Search & Filter** - Query books by title, author, ISBN
 - 📈 **Pagination** - Handle large datasets efficiently
-- 🗂️ **Entity Relationships** - One-to-Many and Many-to-One associations
+- 🗂️ **Entity Relationships** - One-to-Many, Many-to-One, and Many-to-Many associations
 
 ---
 
 ## 🏗️ System Architecture
 
 ```
-┌─────────────────────────────────────────────────────┐
-│           REST API Layer (Controllers)              │
-│   /api/books  /api/users  /api/borrow_records       │
-└──────────────────┬──────────────────────────────────┘
+┌─────────────────────────────────────────────────────────┐
+│           REST API Layer (Controllers)                  │
+│   /api/authors  /api/books  /api/students               │
+│              /api/borrow-records                        │
+└──────────────────┬──────────────────────────────────────┘
                    │
-┌──────────────────▼──────────────────────────────────┐
-│         Business Logic Layer (Services)             │
-│  BookService  UserService  BorrowService            │
-└──────────────────┬──────────────────────────────────┘
+┌──────────────────▼────────────────────────────────────────────┐
+│              DTO & Mapper Layer                               │
+│      AuthorDTOs  BookDTOs  StudentDTOs  BorrowRecordDTOs      │
+│  AuthorMapper  BookMapper  StudentMapper  BorrowRecordMapper  │
+└──────────────────┬────────────────────────────────────────────┘
                    │
-┌──────────────────▼──────────────────────────────────┐
-│    Data Access Layer (Repositories & JPA)           │
-│  BookRepository  UserRepository  BorrowRepository   │
-└──────────────────┬──────────────────────────────────┘
+┌──────────────────▼──────────────────────────────────────┐
+│         Business Logic Layer (Services)                 │
+│  AuthorService  BookService  StudentService             │
+│           BorrowRecordService                           │
+└──────────────────┬──────────────────────────────────────┘
                    │
-┌──────────────────▼──────────────────────────────────┐
-│      Database Layer (PostgreSQL with Hibernate)     │
-│         Persistence & Transaction Management        │
-└─────────────────────────────────────────────────────┘
+┌──────────────────▼──────────────────────────────────────┐
+│    Data Access Layer (Repositories & JPA)               │
+│  AuthorRepository  BookRepository  StudentRepository    │
+│           BorrowRecordRepository                        │
+└──────────────────┬──────────────────────────────────────┘
+                   │
+┌──────────────────▼──────────────────────────────────────┐
+│      Database Layer (PostgreSQL with Hibernate)         │
+│         Persistence & Transaction Management            │
+└─────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -111,40 +121,73 @@ A **production-ready REST API** for library management, evolved from the origina
 ## 📂 Project Structure
 
 ```
-library-management-system-springboot/
+LibraryManagementSystem/
 │
-├── src/main/java/com/alasherdev08/
+├── src/main/java/dev/alisherdev08/librarymanagement/
 │   ├── LibraryManagementSystemApplication.java    # Main Boot Application
 │   │
 │   ├── controller/                          # REST Controllers
+│   │   ├── AuthorController.java
 │   │   ├── BookController.java
-│   │   ├── UserController.java
+│   │   ├── StudentController.java
 │   │   └── BorrowController.java
 │   │
-│   ├── service/                             # Business Logic
-│   │   ├── BookService.java
-│   │   ├── UserService.java
-│   │   └── BorrowService.java
-│   │
-│   ├── repository/                          # Data Access (JPA)
-│   │   ├── BookRepository.java
-│   │   ├── UserRepository.java
-│   │   └── BorrowRepository.java
+│   ├── dto/                                 # Data Transfer Objects
+│   │    ├── author/      
+│   │    │   ├── AuthorCreateDTO.java
+│   │    │   ├── AuthorResponseDTO.java
+│   │    │   └── AuthorUpdateDTO.java
+│   │    │               
+│   │    ├── book/
+│   │    │   ├── BookCreateDTO.java
+│   │    │   ├── BookResponseDTO.java
+│   │    │   └── BookUpdateDTO.java
+│   │    │  
+│   │    ├── borrow_record/
+│   │    │   ├── BorrowRecordCreateDTO.java
+│   │    │   ├── BorrowRecordResponseDTO.java
+│   │    │   └── BorrowRecordUpdateDTO.java
+│   │    │  
+│   │    ├── response/(to be added)
+│   │    │   └── ErrorResponse.java
+│   │    │
+│   │    └── student/
+│   │        ├── StudentCreateDTO.java
+│   │        ├── StudentResponseDTO.java
+│   │        └── StudentUpdateDTO.java
 │   │
 │   ├── entity/                              # JPA Entities
+│   │   ├── Author.java
 │   │   ├── Book.java
-│   │   ├── User.java
-│   │   └── BorrowRecord.java
-│   │
-│   ├── dto/ (to be added)                                # Data Transfer Objects
-│   │   ├── BookDTO.java
-│   │   ├── UserDTO.java
-│   │   └── BorrowDTO.java
+│   │   ├── BorrowRecord.java
+│   │   └── Student.java
 │   │
 │   ├── exception/ (to be added)                           # Custom Exceptions
+│   │   ├── ApplicationException.java
+│   │   ├── AuthenticationException.java
+│   │   ├── DuplicateResourceException.java
+│   │   ├── GlobalExceptionHandler.java
 │   │   ├── ResourceNotFoundException.java
 │   │   └── ValidationException.java
 │   │
+│   ├── mapper/                             # Entity ↔ DTO conversion
+│   │   ├── AuthorMapper.java
+│   │   ├── BookMapper.java
+│   │   ├── BorrowRecordMapper.java
+│   │   └── StudentMapper.java
+│   │   
+│   ├── repository/                          # Data Access (JPA)
+│   │   ├── AuthorRepository.java
+│   │   ├── BookRepository.java
+│   │   ├── StudentRepository.java
+│   │   └── BorrowRepository.java
+│   │ 
+│   ├── service/                             # Business Logic
+│   │   ├── AuthorService.java
+│   │   ├── BookService.java
+│   │   ├── StudentService.java
+│   │   └── BorrowService.java
+│   │ 
 │   └── config/ (to be added)                              # Configuration Classes
 │       └── DatabaseConfig.java
 │
@@ -471,7 +514,7 @@ mvn test jacoco:report
 
 ## 🔗 Related Projects
 
-- **Original Project:** [Library Management System (OOP)](https://github.com/alasherdev08/library-management-system)
+- **Original Project:** [Library Management System (OOP)](https://github.com/alisherdev08/library-managment-system.git)
     - Pure Java console application
     - Core OOP concepts practice
 
