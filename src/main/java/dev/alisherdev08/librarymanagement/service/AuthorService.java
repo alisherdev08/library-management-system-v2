@@ -4,6 +4,7 @@ import dev.alisherdev08.librarymanagement.entity.Author;
 import dev.alisherdev08.librarymanagement.repository.AuthorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,15 +13,19 @@ import java.util.List;
 public class AuthorService {
     private final AuthorRepository authorRepository;
 
+    @Transactional
     public Author createAuthor(Author author){
        return authorRepository.save(author);
     }
+    @Transactional(readOnly = true)
     public Author findAuthorById(Long id){
         return authorRepository.findById(id).orElse(null);
     }
+    @Transactional(readOnly = true)
     public List<Author> findAllAuthors(){
         return authorRepository.findAll();
     }
+    @Transactional
     public Author updateAuthor(Long id, Author request){
         Author author = authorRepository.findById(id).orElseThrow(() -> new RuntimeException("Author not found."));
         author.setFirstName(request.getFirstName());
@@ -29,6 +34,7 @@ public class AuthorService {
         author.setBirthDate(request.getBirthDate());
         return authorRepository.save(author);
     }
+    @Transactional
     public void deleteAuthor(Long id){
         authorRepository.deleteById(id);
     }
